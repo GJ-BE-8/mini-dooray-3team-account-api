@@ -6,7 +6,7 @@ import com.nhnacademy.minidooray3team.domain.Role;
 import com.nhnacademy.minidooray3team.domain.Status;
 import com.nhnacademy.minidooray3team.dto.AccountDto;
 import com.nhnacademy.minidooray3team.exception.AccountAlreadyExistsException;
-import com.nhnacademy.minidooray3team.dto.AccountRegistrationRequest;
+
 import com.nhnacademy.minidooray3team.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -16,7 +16,7 @@ public class AccountController {
 
     @GetMapping("/register")
     public String registerPage() {
-        return "register"; // 회원가입 페이지
+        return "register";
     }
 
     @PostMapping("/register")

@@ -1,5 +1,6 @@
 package com.nhnacademy.minidooray3team.dto;
 
+<<<<<<< HEAD
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -26,5 +27,6 @@ public class AccountDto {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Role role;
+
 }
 
