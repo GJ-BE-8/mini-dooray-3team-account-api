@@ -21,7 +21,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/account/register", "/account/register/**").permitAll() // POST도 허용
+                                .requestMatchers("/accounts",
+                                                "/accounts/**").permitAll() // POST도 허용
                                 .anyRequest().authenticated()
                 );
         return http.build();

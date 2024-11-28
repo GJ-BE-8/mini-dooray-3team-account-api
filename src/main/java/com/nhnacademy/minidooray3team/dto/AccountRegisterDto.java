@@ -1,20 +1,20 @@
 package com.nhnacademy.minidooray3team.dto;
 
-<<<<<<< HEAD
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.nhnacademy.minidooray3team.domain.Role;
+import com.nhnacademy.minidooray3team.domain.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AccountDto {
+public class AccountRegisterDto {
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long accountId;
 
-    @NotBlank(message = "아이디는 필수 입력 값입니다.")
-    @Size(min = 3, max = 20, message = "아이디는 3자 이상 20자 이하로 입력하세요.")
+    @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String username;
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
@@ -28,5 +28,7 @@ public class AccountDto {
     @JsonSerialize(using = ToStringSerializer.class)
     private Role role;
 
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Status status;
 }
 

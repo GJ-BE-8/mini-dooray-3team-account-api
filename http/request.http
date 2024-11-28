@@ -1,5 +1,5 @@
-### 회원 저장
-POST localhost:8080/account/register
+### 회원 저장(CREATE)
+POST localhost:8080/accounts
 Content-Type: application/json
 
 {
@@ -9,13 +9,85 @@ Content-Type: application/json
   "username": "user123"
 }
 
-### 회원 저장
-POST localhost:8080/account/register
+### 회원 저장(CREATE) -> 중복에러 409 에러 발생
+POST localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "email": "fda@gmail.com",
-  "password": "fdsfdsa",
+  "email": "user@example.com",
+  "password": "securePassword123",
   "role": "MEMBER",
-  "username": "ㄹㅇㅁㄴㄹㅇㅁㄹ"
+  "username": "user123"
 }
+
+### 회원 저장(CREATE) -> 올바른 형식인지 검증
+POST localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "email": "userexample.com",
+  "password": "1",
+  "role": "MEMBER",
+  "username": "user"
+}
+
+### 회원 수정(UPDATE) -이름
+PUT localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "username": "김우희"
+}
+
+### 회원 수정(UPDATE) -계정상태
+PUT localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "status": "DELETED"
+}
+
+### 회원 수정(UPDATE) -비밀번호
+PUT localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "password": "123456"
+}
+
+### 회원 수정(UPDATE) -동시수정
+PUT localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "username": "은태현",
+  "status": "DORMANT",
+  "password": "4321"
+}
+
+### 회원 수정(UPDATE) -비밀번호 검증 오류
+PUT localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "password": "1"
+}
+
+### 회원 수정(UPDATE) -존재하지 않는 계정 404에러
+PUT localhost:8080/accounts/2
+Content-Type: application/json
+
+{
+  "username": "은태현",
+  "status": "DORMANT",
+  "password": "4321000"
+}
+
+### 회원 삭제(DELETE)
+DELETE localhost:8080/accounts/1
+
+### 회원 삭제(DELETE) -존재하지 않는 계정 404에러
+DELETE localhost:8080/accounts/2
+
+
+
