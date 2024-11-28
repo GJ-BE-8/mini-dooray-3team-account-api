@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 @Configuration
 public class SecurityConfig {
 
@@ -20,28 +19,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/css/**", "/js/**").permitAll() // 인증 없이 접근 가능 경로
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // 관리자만 접근 가능
-                        .requestMatchers("/member/**").hasRole("MEMBER") // 회원만 접근 가능
-                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
-                )
-                .formLogin(form -> form
-                        .loginPage("/auth/login") // 커스텀 로그인 페이지 경로
-                        .loginProcessingUrl("/auth/login/process") // 로그인 처리 URL
-                        .defaultSuccessUrl("/home", true) // 로그인 성공 시 이동할 페이지
-                        .failureUrl("/auth/login?error=true") // 로그인 실패 시 이동할 페이지
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout")) // 로그아웃 URL
-                        .logoutSuccessUrl("/auth/login") // 로그아웃 성공 시 이동할 페이지
-                        .invalidateHttpSession(true) // 세션 무효화
-                        .deleteCookies("JSESSIONID") // 쿠키 삭제
-                        .permitAll()
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/account/register").permitAll() // 회원가입은 인증 없이 접근 가능
+                                .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 );
-
         return http.build();
     }
 }
-
