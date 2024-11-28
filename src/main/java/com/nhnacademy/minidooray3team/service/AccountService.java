@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray3team.service;
 
 
-//import com.nhnacademy.minidooray3team.auth.CustomAccountDetailsService;
 import com.nhnacademy.minidooray3team.domain.Account;
 import com.nhnacademy.minidooray3team.domain.Status;
 import com.nhnacademy.minidooray3team.dto.AccountModifyDto;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 @Service
@@ -24,7 +22,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final CustomAccountDetailsService customAccountDetailsService;
 
     public void registerAccount(AccountRegisterDto accountDto) {
         //이메일 중복 체크

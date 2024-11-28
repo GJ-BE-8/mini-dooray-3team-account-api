@@ -7,6 +7,7 @@ import com.nhnacademy.minidooray3team.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class AccountController {
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
 
-    @PutMapping("/{accountId}")
+    @PutMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Account> updateAccount(@PathVariable  Long accountId, @RequestBody @Valid AccountModifyDto accountModifyDto) {
         Account updatedAccount = accountService.updateAccount(accountId, accountModifyDto);
         return ResponseEntity.ok(updatedAccount);
