@@ -32,17 +32,19 @@ public class Account {
     private String password;
 
     @Column(nullable = false)
-    @JsonSerialize(using = ToStringSerializer.class)
+    @Enumerated(EnumType.STRING)
     private Status status; // status ENUM('ACTIVE', 'DORMANT', 'DELETED'),
 
     @Column(nullable = false)
-    @JsonSerialize(using = ToStringSerializer.class)
+    @Enumerated(EnumType.STRING)
     private Role role; // ADMIN, MEMBER
 
     @Column(name = "created_at", nullable = false, updatable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false, updatable = false)
+    @Column(name = "updated_at")
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDateTime updatedAt;
 
 

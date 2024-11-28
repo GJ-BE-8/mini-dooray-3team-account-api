@@ -3,8 +3,19 @@ POST localhost:8080/account/register
 Content-Type: application/json
 
 {
-  "username": "김성재",
-  "email": "kisuja@gmail.com",
-  "password": "1234",
-  "role": "MEMBER"
+  "email": "user@example.com",
+  "password": "securePassword123",
+  "role": "MEMBER",
+  "username": "user123"
+}
+
+### 회원 저장
+POST localhost:8080/account/register
+Content-Type: application/json
+
+{
+  "email": "fda@gmail.com",
+  "password": "fdsfdsa",
+  "role": "MEMBER",
+  "username": "fda"
 }

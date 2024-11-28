@@ -20,7 +20,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid AccountDto accountDto) {
+    public ResponseEntity<String> register(@RequestBody @Valid  AccountDto accountDto) {
         accountService.registerUser(accountDto);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
