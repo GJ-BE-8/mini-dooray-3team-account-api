@@ -1,21 +1,29 @@
 package com.nhnacademy.minidooray3team.dto;
 
-import lombok.Data;
-
-import java.time.LocalDateTime;
-import com.nhnacademy.minidooray3team.domain.Status;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.nhnacademy.minidooray3team.domain.Role;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Data
 public class AccountDto {
-    private String username;
-    private String email;
-    private String password;
-    private Status status; // status ENUM('ACTIVE', 'DORMANT', 'DELETED'),
-    private Role role; // ROLE_ADMIN, ROLE_MEMBER
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
+    @NotBlank(message = "아이디는 필수 입력 값입니다.")
+    @Size(min = 3, max = 20, message = "아이디는 3자 이상 20자 이하로 입력하세요.")
+    private String username;
+
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
+    @Email(message = "올바른 이메일 형식이어야 합니다.")
+    private String email;
+
+    @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
+    @Size(min = 6, message = "비밀번호는 최소 6자 이상이어야 합니다.")
+    private String password;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Role role;
 }
 

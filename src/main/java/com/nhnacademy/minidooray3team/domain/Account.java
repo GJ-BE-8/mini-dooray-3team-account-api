@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -45,4 +46,12 @@ public class Account {
     @Column(name = "updated_at", nullable = false, updatable = false)
     private LocalDateTime updatedAt;
 
+    public Account(String username, String email, String password, Status status, Role role, LocalDateTime createdAt) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
 }
