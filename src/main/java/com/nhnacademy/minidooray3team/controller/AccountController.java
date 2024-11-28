@@ -1,13 +1,12 @@
 package com.nhnacademy.minidooray3team.controller;
 
 import com.nhnacademy.minidooray3team.dto.AccountDto;
-import com.nhnacademy.minidooray3team.service.AccountService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import com.nhnacademy.minidooray3team.service.AccountService;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/account")
