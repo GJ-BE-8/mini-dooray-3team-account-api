@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountServiceTest {
+class AccountServiceTest {
 
     @Mock
     private AccountRepository accountRepository;
@@ -51,7 +51,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("register success")
-    public void testRegisterAccount_Success() {
+    void testRegisterAccount_Success() {
         when(accountRepository.findByEmail(accountRegisterDto.getEmail())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(accountRegisterDto.getPassword())).thenReturn("encodedPassword");
 
@@ -62,7 +62,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("register fail")
-    public void testRegisterAccount_AccountAlreadyExists() {
+    void testRegisterAccount_AccountAlreadyExists() {
         when(accountRepository.findByEmail(accountRegisterDto.getEmail())).thenReturn(Optional.of(account));
 
         assertThrows(AccountAlreadyExistsException.class, () -> accountService.registerAccount(accountRegisterDto));
@@ -70,7 +70,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("update success")
-    public void testUpdateAccount_Success() {
+    void testUpdateAccount_Success() {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
         when(passwordEncoder.encode(accountModifyDto.getPassword())).thenReturn("encodedPassword");
         when(accountRepository.save(any(Account.class))).thenReturn(account);
@@ -88,7 +88,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("update fail")
-    public void testUpdateAccount_AccountNotFound() {
+    void testUpdateAccount_AccountNotFound() {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> accountService.updateAccount(account.getAccountId(), accountModifyDto));
@@ -96,7 +96,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("delete success")
-    public void testDeleteAccount_Success() {
+    void testDeleteAccount_Success() {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
 
         accountService.deleteAccount(account.getAccountId());
@@ -106,9 +106,8 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("delete fail")
-    public void testDeleteAccount_AccountNotFound() {
+    void testDeleteAccount_AccountNotFound() {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.empty());
-
         assertThrows(AccountNotFoundException.class, () -> accountService.deleteAccount(account.getAccountId()));
     }
 }
