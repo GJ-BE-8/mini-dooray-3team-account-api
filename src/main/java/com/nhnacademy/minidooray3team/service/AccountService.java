@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @Service
@@ -50,19 +51,14 @@ public class AccountService {
         Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("존재하지 않는 계정입니다."));
 
+
         // 이름 수정
-        if (accountModifyDto.getUsername() != null && !accountModifyDto.getUsername().isEmpty()) {
+        if (Objects.nonNull(accountModifyDto.getUsername()) && !accountModifyDto.getUsername().isEmpty()) {
             account.setUsername(accountModifyDto.getUsername());
         }
 
-        // 비밀번호 수정
-        if (accountModifyDto.getPassword() != null && !accountModifyDto.getPassword().isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(accountModifyDto.getPassword());
-            account.setPassword(hashedPassword);
-        }
-
         // 상태 수정
-        if (accountModifyDto.getStatus() != null) {
+        if (Objects.nonNull(accountModifyDto.getStatus())) {
             account.setStatus(accountModifyDto.getStatus());
         }
 

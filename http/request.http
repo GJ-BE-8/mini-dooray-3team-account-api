@@ -47,31 +47,15 @@ Content-Type: application/json
   "status": "DELETED"
 }
 
-### 회원 수정(UPDATE) -비밀번호
-PUT localhost:8081/accounts/1
-Content-Type: application/json
-
-{
-  "password": "123456"
-}
-
 ### 회원 수정(UPDATE) -동시수정
 PUT localhost:8081/accounts/1
 Content-Type: application/json
 
 {
   "username": "은태현",
-  "status": "DORMANT",
-  "password": "4321"
+  "status": "DORMANT"
 }
 
-### 회원 수정(UPDATE) -비밀번호 검증 오류
-PUT localhost:8081/accounts/1
-Content-Type: application/json
-
-{
-  "password": "1"
-}
 
 ### 회원 수정(UPDATE) -존재하지 않는 계정 404에러
 PUT localhost:8081/accounts/2
@@ -79,8 +63,7 @@ Content-Type: application/json
 
 {
   "username": "은태현",
-  "status": "DORMANT",
-  "password": "4321000"
+  "status": "DORMANT"
 }
 
 ### 회원 삭제(DELETE)

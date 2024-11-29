@@ -67,7 +67,6 @@ class AccountControllerTest {
     void testUpdateAccount_Success() throws Exception {
         AccountModifyDto accountModifyDto = new AccountModifyDto();
         accountModifyDto.setUsername("Updated Name");
-        accountModifyDto.setPassword("newpassword123");
         accountModifyDto.setStatus(Status.ACTIVE);
 
         // 수정된 Account

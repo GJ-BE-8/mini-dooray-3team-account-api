@@ -45,7 +45,6 @@ class AccountServiceTest {
         accountRegisterDto = new AccountRegisterDto(1L,"username", "user@example.com", "password", Role.MEMBER, Status.ACTIVE);
         accountModifyDto = new AccountModifyDto();
         accountModifyDto.setUsername("updatedUsername");
-        accountModifyDto.setPassword("newpassword123");
         accountModifyDto.setStatus(Status.DORMANT);
     }
 
@@ -69,22 +68,23 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("update success")
+    @DisplayName("update success (password not updated)")
     void testUpdateAccount_Success() {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
-        when(passwordEncoder.encode(accountModifyDto.getPassword())).thenReturn("encodedPassword");
+
         when(accountRepository.save(any(Account.class))).thenReturn(account);
 
         Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
 
         assertNotNull(updatedAccount, "Updated account should not be null");
         assertEquals("updatedUsername", updatedAccount.getUsername());
-        assertEquals("encodedPassword", updatedAccount.getPassword());
+        assertEquals(account.getPassword(), updatedAccount.getPassword());
         assertEquals(Status.DORMANT, updatedAccount.getStatus());
         assertNotNull(updatedAccount.getUpdatedAt(), "UpdatedAt should not be null");
 
         verify(accountRepository, times(1)).save(updatedAccount);
     }
+
 
     @Test
     @DisplayName("update fail")
@@ -92,6 +92,58 @@ class AccountServiceTest {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> accountService.updateAccount(account.getAccountId(), accountModifyDto));
+    }
+
+    @Test
+    @DisplayName("update username with valid value")
+    void testUpdateAccount_UsernameNotEmpty() {
+        accountModifyDto.setUsername("newUsername");
+        when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
+        when(accountRepository.save(account)).thenReturn(account);
+
+        Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
+
+        assertEquals("newUsername", updatedAccount.getUsername());
+        verify(accountRepository, times(1)).save(updatedAccount);
+    }
+
+    @Test
+    @DisplayName("update username fail (empty username)")
+    void testUpdateAccount_UsernameEmpty() {
+        accountModifyDto.setUsername("");
+        when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
+        when(accountRepository.save(account)).thenReturn(account);
+
+        Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
+
+        assertEquals("username", updatedAccount.getUsername());
+        verify(accountRepository, times(1)).save(updatedAccount);
+    }
+
+    @Test
+    @DisplayName("update status with valid value")
+    void testUpdateAccount_StatusNotNull() {
+        accountModifyDto.setStatus(Status.DORMANT);
+        when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
+        when(accountRepository.save(account)).thenReturn(account);
+
+        Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
+
+        assertEquals(Status.DORMANT, updatedAccount.getStatus());
+        verify(accountRepository, times(1)).save(updatedAccount);
+    }
+
+    @Test
+    @DisplayName("update status fail (null status)")
+    void testUpdateAccount_StatusNull() {
+        accountModifyDto.setStatus(null);
+        when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
+        when(accountRepository.save(account)).thenReturn(account);
+
+        Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
+
+        assertEquals(Status.ACTIVE, updatedAccount.getStatus());
+        verify(accountRepository, times(1)).save(updatedAccount);
     }
 
     @Test

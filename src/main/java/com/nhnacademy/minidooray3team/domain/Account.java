@@ -22,7 +22,7 @@ public class Account {
     @Column(name = "account_id", nullable = false)
     private Long accountId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false, unique = true)

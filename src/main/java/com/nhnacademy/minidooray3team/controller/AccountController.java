@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService){
+        this.accountService = accountService;
+    }
 
     @PostMapping
     public ResponseEntity<String> register(@RequestBody @Valid AccountRegisterDto accountDto) {
@@ -21,7 +25,7 @@ public class AccountController {
     }
 
     @PutMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> updateAccount(@PathVariable  Long accountId, @RequestBody @Valid AccountModifyDto accountModifyDto) {
+    public ResponseEntity<Account> updateAccount(@PathVariable  Long accountId, @RequestBody AccountModifyDto accountModifyDto) {
         Account updatedAccount = accountService.updateAccount(accountId, accountModifyDto);
         return ResponseEntity.ok(updatedAccount);
     }
