@@ -25,7 +25,7 @@ public class AccountController {
     }
 
     @PutMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> updateAccount(@PathVariable  Long accountId, @RequestBody AccountModifyDto accountModifyDto) {
+    public ResponseEntity<Account> updateAccount(@PathVariable Long accountId, @RequestBody  @Valid AccountModifyDto accountModifyDto) {
         Account updatedAccount = accountService.updateAccount(accountId, accountModifyDto);
         return ResponseEntity.ok(updatedAccount);
     }

@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray3team.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class StatusTest {
 

@@ -50,16 +50,16 @@ public class AccountService {
     public Account updateAccount(Long accountId, AccountModifyDto accountModifyDto) {
         Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("존재하지 않는 계정입니다."));
-
-
-        // 이름 수정
         if (Objects.nonNull(accountModifyDto.getUsername()) && !accountModifyDto.getUsername().isEmpty()) {
             account.setUsername(accountModifyDto.getUsername());
+        }else {
+            account.setUsername(account.getUsername());
         }
 
-        // 상태 수정
         if (Objects.nonNull(accountModifyDto.getStatus())) {
             account.setStatus(accountModifyDto.getStatus());
+        }else {
+            account.setStatus(account.getStatus());
         }
 
         account.setUpdatedAt(LocalDateTime.now());

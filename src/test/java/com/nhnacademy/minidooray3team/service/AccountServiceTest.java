@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -85,7 +87,6 @@ class AccountServiceTest {
         verify(accountRepository, times(1)).save(updatedAccount);
     }
 
-
     @Test
     @DisplayName("update fail")
     void testUpdateAccount_AccountNotFound() {
@@ -94,23 +95,28 @@ class AccountServiceTest {
         assertThrows(AccountNotFoundException.class, () -> accountService.updateAccount(account.getAccountId(), accountModifyDto));
     }
 
-    @Test
-    @DisplayName("update username with valid value")
-    void testUpdateAccount_UsernameNotEmpty() {
-        accountModifyDto.setUsername("newUsername");
+    @ParameterizedTest
+    @CsvSource({
+            "'newUsername', 'newUsername'",  // valid username
+            "'', 'username'"                // empty username
+    })
+    @DisplayName("update username based on input value")
+    void testUpdateAccount_Username(String inputUsername, String expectedUsername) {
+        accountModifyDto.setUsername(inputUsername);
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
         when(accountRepository.save(account)).thenReturn(account);
 
         Account updatedAccount = accountService.updateAccount(account.getAccountId(), accountModifyDto);
 
-        assertEquals("newUsername", updatedAccount.getUsername());
+        assertEquals(expectedUsername, updatedAccount.getUsername());
         verify(accountRepository, times(1)).save(updatedAccount);
     }
 
+
     @Test
-    @DisplayName("update username fail (empty username)")
-    void testUpdateAccount_UsernameEmpty() {
-        accountModifyDto.setUsername("");
+    @DisplayName("update username fail (empty null)")
+    void testUpdateAccount_UsernameNull() {
+        accountModifyDto.setUsername(null);
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.of(account));
         when(accountRepository.save(account)).thenReturn(account);
 
@@ -119,7 +125,6 @@ class AccountServiceTest {
         assertEquals("username", updatedAccount.getUsername());
         verify(accountRepository, times(1)).save(updatedAccount);
     }
-
     @Test
     @DisplayName("update status with valid value")
     void testUpdateAccount_StatusNotNull() {
