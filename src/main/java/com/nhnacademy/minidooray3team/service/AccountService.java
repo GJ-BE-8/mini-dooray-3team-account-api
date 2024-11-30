@@ -3,12 +3,14 @@ package com.nhnacademy.minidooray3team.service;
 
 import com.nhnacademy.minidooray3team.domain.Account;
 import com.nhnacademy.minidooray3team.domain.Status;
+import com.nhnacademy.minidooray3team.dto.AccountInfo;
 import com.nhnacademy.minidooray3team.dto.AccountModifyDto;
 import com.nhnacademy.minidooray3team.dto.AccountRegisterDto;
 import com.nhnacademy.minidooray3team.exception.AccountAlreadyExistsException;
 import com.nhnacademy.minidooray3team.exception.AccountNotFoundException;
 import com.nhnacademy.minidooray3team.repository.AccountRepository;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,13 +54,13 @@ public class AccountService {
                 .orElseThrow(() -> new AccountNotFoundException("존재하지 않는 계정입니다."));
         if (Objects.nonNull(accountModifyDto.getUsername()) && !accountModifyDto.getUsername().isEmpty()) {
             account.setUsername(accountModifyDto.getUsername());
-        }else {
+        } else {
             account.setUsername(account.getUsername());
         }
 
         if (Objects.nonNull(accountModifyDto.getStatus())) {
             account.setStatus(accountModifyDto.getStatus());
-        }else {
+        } else {
             account.setStatus(account.getStatus());
         }
 
@@ -74,5 +76,13 @@ public class AccountService {
                 .orElseThrow(() -> new AccountNotFoundException("존재하지 않는 계정입니다."));
 
         accountRepository.delete(account);
+    }
+
+    @Transactional
+    public AccountInfo findByEmail(String email) {
+        Optional<Account> byUsername = accountRepository.findByEmail(email);
+        Account account = byUsername.orElse(null);
+        return new AccountInfo(account.getEmail(), account.getPassword());
+
     }
 }

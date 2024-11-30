@@ -9,6 +9,17 @@ Content-Type: application/json
   "username": "user123"
 }
 
+### 회원 저장(CREATE)
+POST localhost:8081/accounts
+Content-Type: application/json
+
+{
+  "email": "123@gmail.com",
+  "password": "123123",
+  "role": "MEMBER",
+  "username": "user123"
+}
+
 ### 회원 저장(CREATE) -> 중복에러 409 에러 발생
 POST localhost:8081/accounts
 Content-Type: application/json
@@ -73,4 +84,8 @@ DELETE localhost:8081/accounts/1
 DELETE localhost:8081/accounts/2
 
 
+### 회원이름으로 Gateway에 보낼 회원정보 조회
+GET localhost:8081/accounts/user@example.com
 
+###
+GET localhost:8081/accounts/user@example.com

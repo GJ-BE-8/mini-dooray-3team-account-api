@@ -17,7 +17,6 @@ public class AccountController {
     public AccountController(AccountService accountService){
         this.accountService = accountService;
     }
-
     @PostMapping
     public ResponseEntity<String> register(@RequestBody @Valid AccountRegisterDto accountDto) {
         accountService.registerAccount(accountDto);

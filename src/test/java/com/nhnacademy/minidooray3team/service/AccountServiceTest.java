@@ -167,4 +167,14 @@ class AccountServiceTest {
         when(accountRepository.findByAccountId(account.getAccountId())).thenReturn(Optional.empty());
         assertThrows(AccountNotFoundException.class, () -> accountService.deleteAccount(account.getAccountId()));
     }
+
+    @Test
+    @DisplayName("findbyUserName -> AccountInfo")
+    void testfindUserName() {
+        when(accountRepository.findByEmail(account.getUsername())).thenReturn(Optional.of(account));
+        accountService.findByEmail("username");
+        assertEquals("username", account.getUsername());
+        verify(accountRepository, times(1)).findByEmail(account.getUsername());
+    }
 }
+//account = new Account(1L, "username", "user@example.com", "password", Status.ACTIVE, null, LocalDateTime.now(), LocalDateTime.now());
