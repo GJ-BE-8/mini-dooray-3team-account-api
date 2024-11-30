@@ -79,10 +79,9 @@ public class AccountService {
     }
 
     @Transactional
-    public AccountInfo findByEmail(String email) {
-        Optional<Account> byUsername = accountRepository.findByEmail(email);
+    public AccountInfo findByName(String name) {
+        Optional<Account> byUsername = accountRepository.findByUsername(name);
         Account account = byUsername.orElse(null);
-        return new AccountInfo(account.getEmail(), account.getPassword());
-
+        return new AccountInfo(account.getUsername(), account.getPassword());
     }
 }

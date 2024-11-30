@@ -34,7 +34,7 @@ class LoginControllerTest {
 
     @Test
     public void getUserCredential() throws Exception {
-        when(accountService.findByEmail("admin")).thenReturn(new AccountInfo("admin", "aaaa"));
+        when(accountService.findByName("admin")).thenReturn(new AccountInfo("admin", "aaaa"));
 
         MvcResult result = mockMvc.perform(get("/accounts/{username}", "admin"))
                 .andExpect(status().isOk())

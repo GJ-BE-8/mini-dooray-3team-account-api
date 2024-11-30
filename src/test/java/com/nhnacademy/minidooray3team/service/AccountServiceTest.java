@@ -172,7 +172,7 @@ class AccountServiceTest {
     @DisplayName("findbyUserName -> AccountInfo")
     void testfindUserName() {
         when(accountRepository.findByEmail(account.getUsername())).thenReturn(Optional.of(account));
-        accountService.findByEmail("username");
+        accountService.findByName("username");
         assertEquals("username", account.getUsername());
         verify(accountRepository, times(1)).findByEmail(account.getUsername());
     }

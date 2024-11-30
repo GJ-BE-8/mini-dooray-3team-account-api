@@ -16,9 +16,9 @@ public class LoginController {
     }
 
 
-    @GetMapping("/accounts/{email}")
-    public AccountInfo getUserCredentials(@PathVariable String email) {
-        return accountService.findByEmail(email);
+    @GetMapping("/accounts/{name}")
+    public AccountInfo getUserCredentials(@PathVariable String name) {
+        return accountService.findByName(name);
     }
 }
 
