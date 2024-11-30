@@ -17,7 +17,9 @@ public class AccountController {
     public AccountController(AccountService accountService){
         this.accountService = accountService;
     }
-    @PostMapping
+
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> register(@RequestBody @Valid AccountRegisterDto accountDto) {
         accountService.registerAccount(accountDto);
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
