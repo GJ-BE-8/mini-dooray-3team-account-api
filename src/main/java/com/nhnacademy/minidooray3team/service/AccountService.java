@@ -4,6 +4,7 @@ package com.nhnacademy.minidooray3team.service;
 import com.nhnacademy.minidooray3team.domain.Account;
 import com.nhnacademy.minidooray3team.domain.Status;
 import com.nhnacademy.minidooray3team.dto.AccountInfo;
+import com.nhnacademy.minidooray3team.dto.AccountInfoDto;
 import com.nhnacademy.minidooray3team.dto.AccountModifyDto;
 import com.nhnacademy.minidooray3team.dto.AccountRegisterDto;
 import com.nhnacademy.minidooray3team.exception.AccountAlreadyExistsException;
@@ -52,11 +53,11 @@ public class AccountService {
     public Account updateAccount(Long accountId, AccountModifyDto accountModifyDto) {
         Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("존재하지 않는 계정입니다."));
-        if (Objects.nonNull(accountModifyDto.getUsername()) && !accountModifyDto.getUsername().isEmpty()) {
-            account.setUsername(accountModifyDto.getUsername());
-        } else {
-            account.setUsername(account.getUsername());
-        }
+//        if (Objects.nonNull(accountModifyDto.getUsername()) && !accountModifyDto.getUsername().isEmpty()) {
+//            account.setUsername(accountModifyDto.getUsername());
+//        } else {
+//            account.setUsername(account.getUsername());
+//        }
 
         if (Objects.nonNull(accountModifyDto.getStatus())) {
             account.setStatus(accountModifyDto.getStatus());
@@ -84,4 +85,24 @@ public class AccountService {
         Account account = byUsername.orElse(null);
         return new AccountInfo(account.getUsername(), account.getPassword());
     }
+
+    @Transactional
+    public Long findByNameForId(String name) {
+        Optional<Account> byUsername = accountRepository.findByUsername(name);
+        Account account = byUsername.orElse(null);
+        return account.getAccountId();
+    }
+
+    @Transactional
+    public AccountInfoDto getAccountInfo(Long accountId){
+        return accountRepository.findByAccountId(accountId)
+                .map(account -> new AccountInfoDto(
+                        accountId,
+                        account.getUsername(),
+                        account.getEmail(),
+                        account.getRole(),
+                        account.getStatus()))
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + accountId));
+    }
+
 }

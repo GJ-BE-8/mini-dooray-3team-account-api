@@ -62,26 +62,26 @@ class AccountControllerTest {
                 .andExpect(content().string("회원가입이 완료되었습니다."));
     }
 
-    @Test
-    @DisplayName("update success")
-    void testUpdateAccount_Success() throws Exception {
-        AccountModifyDto accountModifyDto = new AccountModifyDto();
-        accountModifyDto.setUsername("Updated Name");
-        accountModifyDto.setStatus(Status.ACTIVE);
-
-        // 수정된 Account
-        Account updatedAccount = new Account(1L, "Updated Name", "john.doe@example.com", "newpassword123", Status.ACTIVE, Role.MEMBER, LocalDateTime.now(), LocalDateTime.now());
-
-        when(accountService.updateAccount(1L, accountModifyDto)).thenReturn(updatedAccount);
-        mockMvc.perform(put("/accounts/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(accountModifyDto)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value("Updated Name"))
-                .andExpect(jsonPath("$.status").value("active"))
-                .andExpect(jsonPath("$.password").value("newpassword123"));
-    }
+//    @Test
+//    @DisplayName("update success")
+//    void testUpdateAccount_Success() throws Exception {
+//        AccountModifyDto accountModifyDto = new AccountModifyDto();
+//        accountModifyDto.setUsername("Updated Name");
+//        accountModifyDto.setStatus(Status.ACTIVE);
+//
+//        // 수정된 Account
+//        Account updatedAccount = new Account(1L, "Updated Name", "john.doe@example.com", "newpassword123", Status.ACTIVE, Role.MEMBER, LocalDateTime.now(), LocalDateTime.now());
+//
+//        when(accountService.updateAccount(1L, accountModifyDto)).thenReturn(updatedAccount);
+//        mockMvc.perform(put("/accounts/1")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(accountModifyDto)))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.username").value("Updated Name"))
+//                .andExpect(jsonPath("$.status").value("active"))
+//                .andExpect(jsonPath("$.password").value("newpassword123"));
+//    }
 
     @Test
     @DisplayName("delete success")

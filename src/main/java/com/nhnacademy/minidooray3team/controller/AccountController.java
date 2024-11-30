@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray3team.controller;
 
 import com.nhnacademy.minidooray3team.domain.Account;
+import com.nhnacademy.minidooray3team.dto.AccountInfoDto;
 import com.nhnacademy.minidooray3team.dto.AccountModifyDto;
 import com.nhnacademy.minidooray3team.dto.AccountRegisterDto;
 import com.nhnacademy.minidooray3team.service.AccountService;
@@ -25,7 +26,7 @@ public class AccountController {
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
 
-    @PutMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Account> updateAccount(@PathVariable Long accountId, @RequestBody  @Valid AccountModifyDto accountModifyDto) {
         Account updatedAccount = accountService.updateAccount(accountId, accountModifyDto);
         return ResponseEntity.ok(updatedAccount);
@@ -36,6 +37,9 @@ public class AccountController {
         accountService.deleteAccount(accountId);
         return ResponseEntity.ok("Account deleted successfully.");
     }
+
+
+
 }
 
 
