@@ -32,7 +32,7 @@ public class AccountController {
         return ResponseEntity.ok(updatedAccount);
     }
 
-    @DeleteMapping("/{accountId}")
+    @PostMapping("/info/delete/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long accountId) {
         accountService.deleteAccount(accountId);
         return ResponseEntity.ok("Account deleted successfully.");
