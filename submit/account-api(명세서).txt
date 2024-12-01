@@ -1,0 +1,253 @@
+
+Account
+
+########################################################
+
+회원 등록
+
+- Request
+
+POST localhost:8081/accounts
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "securePassword123",
+  "role": "MEMBER",
+  "username": "user123"
+}
+
+- Response
+
+HTTP/1.1 200
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 38
+Date: Sun, 01 Dec 2024 04:49:29 GMT
+
+회원가입이 완료되었습니다.
+
+########################################################
+
+회원 정보 조회(GET)
+
+- Request
+
+GET localhost:8081/accounts/info/1
+
+
+- Response
+
+HTTP/1.1 200
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 01 Dec 2024 05:04:00 GMT
+
+{
+  "accountId": 1,
+  "username": "user123",
+  "email": "user@example.com",
+  "role": "MEMBER",
+  "status": "ACTIVE"
+}
+
+########################################################
+
+
+Exception - 회원 중복 저장(CREATE)  -> 중복에러 409 에러 발생
+
+- Request
+
+POST localhost:8081/accounts
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "securePassword123",
+  "role": "MEMBER",
+  "username": "user123"
+}
+
+- Response
+
+HTTP/1.1 409
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 39
+Date: Sun, 01 Dec 2024 04:51:41 GMT
+
+이미 존재하는 이메일입니다.
+
+
+
+########################################################
+
+
+Exception - 회원 잘못된 형식 저장(CREATE)  -> 올바른 형식인지 검증
+
+- Request
+
+POST localhost:8081/accounts
+Content-Type: application/json
+
+{
+  "email": "userexample.com",
+  "password": "1",
+  "role": "MEMBER",
+  "username": "user"
+}
+
+
+- Response
+
+HTTP/1.1 400
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 01 Dec 2024 04:53:45 GMT
+Connection: close
+
+{
+  "password": "비밀번호는 최소 6자 이상이어야 합니다.",
+  "email": "올바른 이메일 형식이어야 합니다."
+}
+
+
+
+########################################################
+
+
+회원 수정(UPDATE) -계정상태
+
+-  Request
+
+POST localhost:8081/accounts/1
+Content-Type: application/json
+
+{
+  "status": "DELETED"
+}
+
+- Response
+
+HTTP/1.1 200
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 01 Dec 2024 04:55:49 GMT
+
+{
+  "accountId": 1,
+  "username": "user123",
+  "email": "user@example.com",
+  "password": "$2a$10$BHdAHAm2XxjCwRGm9wLMJ.qhc55h//AIp7PJkwONpqRDXY/BtiavO",
+  "status": "deleted",
+  "role": "member",
+  "createdAt": "2024-12-01T13:49:28.885890",
+  "updatedAt": "2024-12-01T13:55:49.248334"
+}
+
+########################################################
+
+
+Exception -회원 수정(UPDATE)
+ -> 존재하지 않는 계정 404에러
+
+- Request
+
+POST localhost:8081/accounts/5
+Content-Type: application/json
+
+{
+  "status": "DORMANT"
+}
+
+- Response
+
+HTTP/1.1 404
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 36
+Date: Sun, 01 Dec 2024 04:57:26 GMT
+
+존재하지 않는 계정입니다.
+
+########################################################
+
+회원 삭제(DELETE)
+
+- Request
+
+POST localhost:8081/accounts/info/delete/1
+
+- Response
+
+HTTP/1.1 200
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 29
+Date: Sun, 01 Dec 2024 04:59:27 GMT
+
+Account deleted successfully.
+
+########################################################
+
+Exception - 회원 삭제(DELETE) -> 존재하지 않는 계정 404에러
+
+- Request
+
+POST localhost:8081/accounts/info/delete/5
+
+- Response
+
+HTTP/1.1 404
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 36
+Date: Sun, 01 Dec 2024 04:59:38 GMT
+
+존재하지 않는 계정입니다.
+
+
+########################################################
