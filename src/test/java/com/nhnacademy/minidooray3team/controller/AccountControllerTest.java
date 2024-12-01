@@ -62,33 +62,29 @@ class AccountControllerTest {
                 .andExpect(content().string("회원가입이 완료되었습니다."));
     }
 
-//    @Test
-//    @DisplayName("update success")
-//    void testUpdateAccount_Success() throws Exception {
-//        AccountModifyDto accountModifyDto = new AccountModifyDto();
-//        accountModifyDto.setUsername("Updated Name");
-//        accountModifyDto.setStatus(Status.ACTIVE);
-//
-//        // 수정된 Account
-//        Account updatedAccount = new Account(1L, "Updated Name", "john.doe@example.com", "newpassword123", Status.ACTIVE, Role.MEMBER, LocalDateTime.now(), LocalDateTime.now());
-//
-//        when(accountService.updateAccount(1L, accountModifyDto)).thenReturn(updatedAccount);
-//        mockMvc.perform(put("/accounts/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(accountModifyDto)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.username").value("Updated Name"))
-//                .andExpect(jsonPath("$.status").value("active"))
-//                .andExpect(jsonPath("$.password").value("newpassword123"));
-//    }
+    @Test
+    @DisplayName("update success")
+    void testUpdateAccount_Success() throws Exception {
+        AccountModifyDto accountModifyDto = new AccountModifyDto();
+        accountModifyDto.setStatus(Status.ACTIVE);
+
+        Account updatedAccount = new Account(1L, "Name", "john.doe@example.com", "newpassword123", Status.ACTIVE, Role.MEMBER, LocalDateTime.now(), LocalDateTime.now());
+
+        when(accountService.updateAccount(1L, accountModifyDto)).thenReturn(updatedAccount);
+        mockMvc.perform(post("/accounts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(accountModifyDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value("active"));
+    }
 
     @Test
     @DisplayName("delete success")
     void testDeleteAccount_Success() throws Exception {
         doNothing().when(accountService).deleteAccount(1L);
 
-        mockMvc.perform(delete("/accounts/1"))
+        mockMvc.perform(post("/accounts/info/delete/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Account deleted successfully."));
     }

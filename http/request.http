@@ -31,6 +31,9 @@ Content-Type: application/json
   "username": "user123"
 }
 
+### 회원 정보 확인(GET)
+GET localhost:8081/accounts/info/1
+
 ### 회원 저장(CREATE) -> 올바른 형식인지 검증
 POST localhost:8081/accounts
 Content-Type: application/json
@@ -42,49 +45,31 @@ Content-Type: application/json
   "username": "user"
 }
 
-### 회원 수정(UPDATE) -이름
-PUT localhost:8081/accounts/1
-Content-Type: application/json
-
-{
-  "username": "김우희"
-}
 
 ### 회원 수정(UPDATE) -계정상태
-PUT localhost:8081/accounts/1
+POST localhost:8081/accounts/1
 Content-Type: application/json
 
 {
   "status": "DELETED"
 }
 
-### 회원 수정(UPDATE) -동시수정
-PUT localhost:8081/accounts/1
-Content-Type: application/json
-
-{
-  "username": "은태현",
-  "status": "DORMANT"
-}
-
 
 ### 회원 수정(UPDATE) -존재하지 않는 계정 404에러
-PUT localhost:8081/accounts/2
+POST localhost:8081/accounts/5
 Content-Type: application/json
 
 {
-  "username": "은태현",
   "status": "DORMANT"
 }
 
 ### 회원 삭제(DELETE)
-DELETE localhost:8081/accounts/1
+POST localhost:8081/accounts/info/delete/1
 
 ### 회원 삭제(DELETE) -존재하지 않는 계정 404에러
-DELETE localhost:8081/accounts/2
+POST localhost:8081/accounts/info/delete/1
 
 
-###
-GET localhost:8081/accounts/1
+
 
 

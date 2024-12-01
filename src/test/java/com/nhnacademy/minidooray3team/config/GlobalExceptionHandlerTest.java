@@ -53,23 +53,20 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testHandleAccountNotFoundException() throws Exception {
-        // 테스트할 accountId 설정
         Long accountId = 1L;
 
         when(accountService.updateAccount(eq(accountId), any(AccountModifyDto.class)))
                 .thenThrow(new AccountNotFoundException("존재하지 않는 계정입니다."));
 
-        // PUT 요청 수행
-        mockMvc.perform(put("/accounts/{accountId}", accountId)
+        mockMvc.perform(post("/accounts/{accountId}", accountId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"newUsername\"}"))
-                .andExpect(status().isNotFound()) // HTTP 404 상태 코드
-                .andExpect(content().string("존재하지 않는 계정입니다.")); // 예외 메시지 확인
+                        .content("{\"status\":\"ACTIVE\"}"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("존재하지 않는 계정입니다."));
     }
 
     @Test
     void testHandleMethodArgumentNotValidException() throws Exception {
-        // 예시: DTO 유효성 검사 오류 발생
         mockMvc.perform(post("/accounts")
                         .contentType("application/json")
                         .content("{\"email\":\"\", \"username\":\"\", \"password\":\"pass\"}"))
@@ -90,17 +87,4 @@ class GlobalExceptionHandlerTest {
                 .andExpect(status().isBadRequest()) // HTTP 400 상태 코드
                 .andExpect(jsonPath("$.email").value("올바른 이메일 형식이어야 합니다.")); // 이메일 형식 검증 실패 메시지
     }
-
-    @Test
-    void testHandleModifyUserName() throws Exception {
-
-        Long accountId = 1L;
-
-        mockMvc.perform(put("/accounts/{accountId}", accountId)
-                        .contentType("application/json")
-                        .content("{\"username\":\"\"}"))
-                .andExpect(status().isBadRequest()) // HTTP 400 상태 코드
-                .andExpect(jsonPath("$.username").value("이름은 필수 입력 값입니다."));
-    }
-
 }

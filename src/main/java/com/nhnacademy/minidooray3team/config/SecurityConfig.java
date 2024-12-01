@@ -3,6 +3,7 @@ package com.nhnacademy.minidooray3team.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,7 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/**","/accounts",
+                                .requestMatchers("/info/delete/**","/accounts","/accounts/info/**",
                                                 "/accounts/**", "/getId/**").permitAll() // POST도 허용
                                 .anyRequest().authenticated()
                 );
